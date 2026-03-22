@@ -14,4 +14,4 @@ class Cache:
     
     def get(self, key: str, fn):
         data = self._redis.get(key)
-        if 
+        

@@ -2,7 +2,7 @@
 
 import redis
 import uuid
-from typing import Union
+from typing import Callable, Optional, Union
 
 class Cache:
     def __init__(self) -> None:
@@ -14,6 +14,16 @@ class Cache:
         self._redis.set(key, data)
         return key
     
-    def get(self, key: str, fn):
+    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
         data = self._redis.get(key)
-        
+        if data is None:
+            return None
+        if fn:
+            return fn(data)
+        return data
+    
+    def get_str(self, key: str) -> Optional[str]:
+        return self.get(key, lambda d: d.decode('utf-8'))
+    
+    def get_int(self, key: str) -> Optional[int]:
+        return self.get(key, lambda d: d.decode('utf-8'))

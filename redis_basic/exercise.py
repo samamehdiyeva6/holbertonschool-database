@@ -43,6 +43,7 @@ class Cache:
 
 
     @count_calls
+    @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Metod that takes uuid data type and returns str

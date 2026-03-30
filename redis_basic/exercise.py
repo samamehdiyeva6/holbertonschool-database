@@ -8,7 +8,7 @@ import uuid
 from typing import Callable, Optional, Union
 from functools import wraps
 
-def count_calls(f) -> Callable:
+def count_calls(f: Callable) -> Callable:
     @wraps(f)
     def wrapper(self, *args, **kwargs):
         key = f.__qualname__
@@ -40,4 +40,4 @@ class Cache:
         return self.get(key, lambda d: d.decode('utf-8'))
     
     def get_int(self, key: str) -> Optional[int]:
-        return self.get(key, lambda d: d.decode('utf-8'))
+        return self.get(key, lambda d: int(d.decode('utf-8')))

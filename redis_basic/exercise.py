@@ -9,6 +9,9 @@ from typing import Callable, Optional, Union
 from functools import wraps
 
 def count_calls(f: Callable) -> Callable:
+    """
+    Decorator that counts the number of times a method is called.
+    """
     @wraps(f)
     def wrapper(self, *args, **kwargs):
         key = f.__qualname__

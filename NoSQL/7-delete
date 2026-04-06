@@ -1,0 +1,3 @@
+// delete
+use my_db
+db.school.deleteMany({name: "Holberton school"})

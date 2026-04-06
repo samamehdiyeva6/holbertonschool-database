@@ -1,0 +1,4 @@
+// insert
+use my_db
+db.createCollection("school")
+db.school.insertOne({name: "Holberton school"})

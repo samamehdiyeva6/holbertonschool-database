@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""
-This module defines a Cache class that interacts with a Redis database to store and retrieve data.
-"""
+"""This module contains the Cache class 
+that interacts with a Redis database."""
 
 
 import redis
@@ -21,6 +20,7 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+
 def call_history(method: Callable) -> Callable:
     """
     Decorator that stores the history of inputs and outputs for a method.
@@ -34,6 +34,7 @@ def call_history(method: Callable) -> Callable:
         self._redis.rpush(output_key, str(result))
         return result
     return wrapper
+
 
 def replay(method: Callable) -> None:
         """
@@ -50,6 +51,7 @@ def replay(method: Callable) -> None:
 
         for inp, out in zip(inputs, outputs):
             print(f"{name}(*{inp.decode('utf-8')})")
+
 
 class Cache:
     """
@@ -70,7 +72,8 @@ class Cache:
         self._redis.set(key, data)
 
         return key
-    
+
+
     def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
         """Metod that returns the value of key"""
         data = self._redis.get(key)
@@ -79,11 +82,13 @@ class Cache:
         if fn:
             return fn(data)
         return data
-    
+
+
     def get_str(self, key: str) -> Optional[str]:
         """Metod that returns the value of key as str"""
         return self.get(key, lambda d: d.decode('utf-8'))
-    
+
+
     def get_int(self, key: str) -> Optional[int]:
         """Metod that returns the value of key as int"""
         return self.get(key, lambda d: int(d.decode('utf-8')))

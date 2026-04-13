@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""This module contains the Cache class 
+"""This module contains the Cache class
 that interacts with a Redis database."""
 
 
@@ -72,7 +72,9 @@ class Cache:
 
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
+    def get(self, 
+            key: str,
+            fn: Optional[Callable] = None)-> Union[str, bytes, int, float]:
         """Metod that returns the value of key"""
         data = self._redis.get(key)
         if data is None:

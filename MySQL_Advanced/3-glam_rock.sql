@@ -1,6 +1,6 @@
 --kjbkjgkgjh
 SELECT band_name,
-       YEAR(IFNULL(split, CURDATE())) - formed AS lifespan
+       YEAR(IFNULL(split, CURDATE())) - YEAR(formed) AS lifespan
 FROM metal_bands
-WHERE LOWER(style) LIKE '%glam rock%'
+WHERE style = 'Glam rock'
 ORDER BY lifespan DESC;

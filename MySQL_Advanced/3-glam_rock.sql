@@ -1,4 +1,4 @@
-"kjbkjgkgjh"
+--kjbkjgkgjh
 SELECT band_name,
        YEAR(IFNULL(split, CURDATE())) - formed AS lifespan
 FROM metal_bands

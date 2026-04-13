@@ -3,10 +3,12 @@
 This module defines a Cache class that interacts with a Redis database to store and retrieve data.
 """
 
+
 import redis
 import uuid
 from typing import Callable, Optional, Union
 from functools import wraps
+
 
 def count_calls(method: Callable) -> Callable:
     """
@@ -32,6 +34,22 @@ def call_history(method: Callable) -> Callable:
         self._redis.rpush(output_key, str(result))
         return result
     return wrapper
+
+def replay(method: Callable) -> None:
+        """
+        Replays the method and returns count of calls and history of calls
+        """
+        r = method.__self__._redis
+        name = method.__qualname__
+        count = r.get(name).decode('utf-8') if r.get(name) else '0'
+
+        inputs = r.lrange(f"{name}:inputs", 0, -1)
+        outputs = r.lrange(f"{name}:outputs", 0, -1)
+
+        print(f"{name} was called {count} times:")
+
+        for inp, out in zip(inputs, outputs):
+            print(f"{name}(*{inp.decode('utf-8')})")
 
 class Cache:
     """
@@ -69,20 +87,3 @@ class Cache:
     def get_int(self, key: str) -> Optional[int]:
         """Metod that returns the value of key as int"""
         return self.get(key, lambda d: int(d.decode('utf-8')))
-
-
-    def replay(method: Callable) -> None:
-        """
-        Replays the method and returns count of calls and history of calls
-        """
-        r = method.__self__._redis
-        name = method.__qualname__
-        count = r.get(name).decode('utf-8') if r.get(name) else '0'
-
-        inputs = r.lrange(f"{name}:inputs", 0, -1)
-        outputs = r.lrange(f"{name}:outputs", 0, -1)
-
-        print(f"{name} was called {count} times:")
-
-        for inp, out in zip(inputs, outputs):
-            print(f"{name}(*{inp.decode('utf-8')})")

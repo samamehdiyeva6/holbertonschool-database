@@ -1,4 +1,4 @@
---sadfd
+-- sadfd
 CREATE VIEW need_meeting AS
 SELECT * FROM students
 WHERE score < 80 AND

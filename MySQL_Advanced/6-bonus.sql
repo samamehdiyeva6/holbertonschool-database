@@ -10,8 +10,7 @@ BEGIN
 
     SELECT id INTO projectId
     FROM projects
-    WHERE name = project_name
-    LIMIT 1;
+    WHERE name = project_name;
 
     IF projectId IS NULL THEN
         INSERT INTO projects(name) VALUES (project_name);

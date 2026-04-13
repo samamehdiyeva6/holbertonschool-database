@@ -68,7 +68,7 @@ class Cache:
         return self.get(key, lambda d: int(d.decode('utf-8')))
 
 
-
+    r = redis.Redis(host='localhost', port=6379)
     def replay(method: Callable) -> None:
         """
         Display the history of calls of a particular function.

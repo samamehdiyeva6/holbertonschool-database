@@ -1,4 +1,4 @@
---dfkjsng
+-- dfkjsng
 DELIMITER $$
 CREATE PROCEDURE AddBonus(
     IN user_id INT,

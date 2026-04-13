@@ -37,20 +37,20 @@ def call_history(method: Callable) -> Callable:
 
 
 def replay(method: Callable) -> None:
-        """
-        Replays the method and returns count of calls and history of calls
-        """
-        r = method.__self__._redis
-        name = method.__qualname__
-        count = r.get(name).decode('utf-8') if r.get(name) else '0'
+    """
+    Replays the method and returns count of calls and history of calls
+    """
+    r = method.__self__._redis
+    name = method.__qualname__
+    count = r.get(name).decode('utf-8') if r.get(name) else '0'
 
-        inputs = r.lrange(f"{name}:inputs", 0, -1)
-        outputs = r.lrange(f"{name}:outputs", 0, -1)
+    inputs = r.lrange(f"{name}:inputs", 0, -1)
+    outputs = r.lrange(f"{name}:outputs", 0, -1)
 
-        print(f"{name} was called {count} times:")
+    print(f"{name} was called {count} times:")
 
-        for inp, out in zip(inputs, outputs):
-            print(f"{name}(*{inp.decode('utf-8')})")
+    for inp, out in zip(inputs, outputs):
+        print(f"{name}(*{inp.decode('utf-8')})")
 
 
 class Cache:
@@ -60,7 +60,6 @@ class Cache:
     def __init__(self) -> None:
         self._redis = redis.Redis(host='localhost', port=6379)
         self._redis.flushdb()
-
 
     @count_calls
     @call_history
@@ -73,7 +72,6 @@ class Cache:
 
         return key
 
-
     def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
         """Metod that returns the value of key"""
         data = self._redis.get(key)
@@ -83,11 +81,9 @@ class Cache:
             return fn(data)
         return data
 
-
     def get_str(self, key: str) -> Optional[str]:
         """Metod that returns the value of key as str"""
         return self.get(key, lambda d: d.decode('utf-8'))
-
 
     def get_int(self, key: str) -> Optional[int]:
         """Metod that returns the value of key as int"""

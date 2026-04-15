@@ -1,3 +1,2 @@
 // delete
-use my_db
-db.school.deleteMany({name: "Holberton school"})
+db.school.delete({name: "Holberton school"}, {multi: true})

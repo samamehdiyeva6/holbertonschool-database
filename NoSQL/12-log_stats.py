@@ -14,7 +14,7 @@ def log_stats():
     collection = client.logs.nginx
 
     count = collection.count_documents({})
-    print(f"Number of documents in the collection: {count}")
+    print(f"{count} logs")
 
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
     print("Methods:")

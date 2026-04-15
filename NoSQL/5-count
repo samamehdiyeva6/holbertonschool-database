@@ -1,3 +1,2 @@
 // count
-use my_db
 db.school.countDocuments()
